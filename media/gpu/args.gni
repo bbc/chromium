@@ -16,6 +16,27 @@ declare_args() {
   # platforms which have v4l2 hardware encoder
   use_v4l2_codec_aml = false
 
+  # Compile the H.264 decoder.
+  v4l2_decoder_fmt_h264 = true
+
+  # Compile the legacy H.264 decoder.
+  v4l2_decoder_fmt_h264_legacy = false
+
+  # Compile the VP8 decoder.
+  v4l2_decoder_fmt_vp8 = true
+
+  # Compile the legacy VP8 decoder.
+  v4l2_decoder_fmt_vp8_legacy = false
+
+  # Compile the VP9 decoder.
+  v4l2_decoder_fmt_vp9 = false
+
+  # Compile the stateful decoder backend.
+  v4l2_decoder_backend_stateful = true
+
+  # Compile the stateless decoder backend.
+  v4l2_decoder_backend_stateless = true
+
   # Indicates if VA-API-based hardware acceleration is to be used. This
   # is typically the case on x86-based ChromeOS devices.
   # VA-API should also be compiled by default on x11-using linux devices

@@ -35,14 +35,8 @@ source_set("v4l2") {
     "v4l2_device.h",
     "v4l2_device_poller.cc",
     "v4l2_device_poller.h",
-    "v4l2_h264_accelerator.cc",
-    "v4l2_h264_accelerator.h",
-    "v4l2_h264_accelerator_legacy.cc",
-    "v4l2_h264_accelerator_legacy.h",
     "v4l2_image_processor_backend.cc",
     "v4l2_image_processor_backend.h",
-    "v4l2_slice_video_decode_accelerator.cc",
-    "v4l2_slice_video_decode_accelerator.h",
     "v4l2_stateful_workaround.cc",
     "v4l2_stateful_workaround.h",
     "v4l2_vda_helpers.cc",
@@ -53,16 +47,8 @@ source_set("v4l2") {
     "v4l2_video_decoder.h",
     "v4l2_video_decoder_backend.cc",
     "v4l2_video_decoder_backend.h",
-    "v4l2_video_decoder_backend_stateful.cc",
-    "v4l2_video_decoder_backend_stateful.h",
-    "v4l2_video_decoder_backend_stateless.cc",
-    "v4l2_video_decoder_backend_stateless.h",
     "v4l2_video_encode_accelerator.cc",
     "v4l2_video_encode_accelerator.h",
-    "v4l2_vp8_accelerator.cc",
-    "v4l2_vp8_accelerator.h",
-    "v4l2_vp8_accelerator_legacy.cc",
-    "v4l2_vp8_accelerator_legacy.h",
     "v4l2_vp9_accelerator_legacy.cc",
     "v4l2_vp9_accelerator_legacy.h",
   ]
@@ -71,6 +57,59 @@ source_set("v4l2") {
     "EGL",
     "GLESv2",
   ]
+
+  if (v4l2_decoder_fmt_h264) {
+    sources += [
+      "v4l2_h264_accelerator.cc",
+      "v4l2_h264_accelerator.h",
+    ]
+  }
+
+  if (v4l2_decoder_fmt_h264_legacy) {
+    sources += [
+      "v4l2_h264_accelerator_legacy.cc",
+      "v4l2_h264_accelerator_legacy.h",
+    ]
+  }
+
+  if (v4l2_decoder_fmt_vp8) {
+    sources += [
+      "v4l2_vp8_accelerator.cc",
+      "v4l2_vp8_accelerator.h",
+    ]
+  }
+
+  if (v4l2_decoder_fmt_vp8_legacy) {
+    sources += [
+      "v4l2_vp8_accelerator_legacy.cc",
+      "v4l2_vp8_accelerator_legacy.h",
+    ]
+  }
+
+  if (v4l2_decoder_fmt_vp9) {
+    sources += [
+      "v4l2_vp9_accelerator.cc",
+      "v4l2_vp9_accelerator.h",
+    ]
+  }
+
+  if (v4l2_decoder_backend_stateful) {
+    sources += [
+      "v4l2_video_decoder_backend_stateful.cc",
+      "v4l2_video_decoder_backend_stateful.h",
+    ]
+  }
+
+  if (v4l2_decoder_backend_stateless) {
+    sources += [
+      "v4l2_video_decoder_backend_stateless.cc",
+      "v4l2_video_decoder_backend_stateless.h",
+      "v4l2_slice_video_decode_accelerator.cc",
+      "v4l2_slice_video_decode_accelerator.h",
+      "v4l2_slice_video_decoder.cc",
+      "v4l2_slice_video_decoder.h",
+    ]
+  }
 
   if (current_cpu == "arm") {
     sources += [

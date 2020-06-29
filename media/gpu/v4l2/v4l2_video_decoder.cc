@@ -35,7 +35,9 @@ constexpr size_t kNumInputBuffers = 16;
 
 // Input format V4L2 fourccs this class supports.
 constexpr uint32_t kSupportedInputFourccs[] = {
+  #if defined(V4L2_DECODER_BACKEND_STATELESS)
     V4L2_PIX_FMT_H264_SLICE, V4L2_PIX_FMT_VP8_FRAME, V4L2_PIX_FMT_VP9_FRAME,
+  #endif
     V4L2_PIX_FMT_H264,       V4L2_PIX_FMT_VP8,       V4L2_PIX_FMT_VP9,
 };
 

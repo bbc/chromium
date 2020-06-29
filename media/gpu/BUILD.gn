@@ -20,6 +20,8 @@ buildflag_header("buildflags") {
     "USE_VAAPI_IMAGE_CODECS=$use_vaapi_image_codecs",
     "USE_V4L2_CODEC=$use_v4l2_codec",
     "USE_LIBV4L2=$use_v4lplugin",
+    "V4L2_DECODER_BACKEND_STATELESS=$v4l2_decoder_backend_stateless",
+    "V4L2_DECODER_FMT_H264_LEGACY=$v4l2_decoder_fmt_h264_legacy",
   ]
 }
 
