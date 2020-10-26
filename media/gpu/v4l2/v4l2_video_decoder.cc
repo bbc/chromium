@@ -34,7 +34,9 @@ constexpr size_t kNumInputBuffers = 16;
 
 // Input format V4L2 fourccs this class supports.
 constexpr uint32_t kSupportedInputFourccs[] = {
+  #if BUILDFLAG(USE_V4L2_STATELESS_DECODER)
     V4L2_PIX_FMT_H264_SLICE, V4L2_PIX_FMT_VP8_FRAME, V4L2_PIX_FMT_VP9_FRAME,
+  #endif
     V4L2_PIX_FMT_H264,       V4L2_PIX_FMT_VP8,       V4L2_PIX_FMT_VP9,
 };
 
@@ -198,10 +200,12 @@ void V4L2VideoDecoder::Initialize(const VideoDecoderConfig& config,
     backend_ = std::make_unique<V4L2StatefulVideoDecoderBackend>(
         this, device_, profile, decoder_task_runner_);
     input_format_fourcc = input_format_fourcc_stateful;
+#if BUILDFLAG(USE_V4L2_STATELESS_DECODER)
   } else if (input_format_fourcc_stateless) {
     backend_ = std::make_unique<V4L2StatelessVideoDecoderBackend>(
         this, device_, profile, decoder_task_runner_);
     input_format_fourcc = input_format_fourcc_stateless;
+#endif
   } else {
     VLOGF(1) << "No backend capable of taking this profile.";
     std::move(init_cb).Run(StatusCode::kV4l2FailedResourceAllocation);
