@@ -22,6 +22,7 @@ buildflag_header("buildflags") {
     "USE_V4L2_CODEC=$use_v4l2_codec",
     "USE_LIBV4L2=$use_v4lplugin",
     "USE_VAAPI_X11=$use_vaapi_x11",
+    "USE_V4L2_STATELESS_DECODER=$use_v4l2_stateless_decoder",
   ]
 }
 

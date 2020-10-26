@@ -64,6 +64,7 @@ constexpr size_t kInputBufferMaxSizeFor4k = 2 * kInputBufferMaxSizeFor1080p;
 
 // Input format V4L2 fourccs this class supports.
 const std::vector<uint32_t> kSupportedInputFourccs = {
+#if BUILDFLAG(USE_V4L2_STATELESS_DECODER)
     // V4L2 stateless formats
     V4L2_PIX_FMT_H264_SLICE,
 #if BUILDFLAG(ENABLE_HEVC_PARSER_AND_HW_DECODER)
@@ -72,6 +73,7 @@ const std::vector<uint32_t> kSupportedInputFourccs = {
     V4L2_PIX_FMT_VP8_FRAME,
     V4L2_PIX_FMT_VP9_FRAME,
     V4L2_PIX_FMT_AV1_FRAME,
+#endif  // BUILDFLAG(USE_V4L2_STATELESS_DECODER)
     // V4L2 stateful formats
     V4L2_PIX_FMT_H264,
 #if BUILDFLAG(ENABLE_HEVC_PARSER_AND_HW_DECODER)
@@ -443,6 +445,7 @@ V4L2Status V4L2VideoDecoder::InitializeBackend() {
              << " and fourcc: " << FourccToString(input_format_fourcc_);
     backend_ = std::make_unique<V4L2StatefulVideoDecoderBackend>(
         this, device_, profile_, color_space_, decoder_task_runner_);
+#if BUILDFLAG(USE_V4L2_STATELESS_DECODER)
   } else {
     DCHECK_EQ(preferred_api_and_format.first, kStateless);
     VLOGF(1) << "Using a stateless API for profile: "
@@ -450,6 +453,7 @@ V4L2Status V4L2VideoDecoder::InitializeBackend() {
              << " and fourcc: " << FourccToString(input_format_fourcc_);
     backend_ = std::make_unique<V4L2StatelessVideoDecoderBackend>(
         this, device_, profile_, color_space_, decoder_task_runner_);
+#endif
   }
 
   if (!backend_->Initialize()) {

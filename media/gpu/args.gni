@@ -21,6 +21,9 @@ declare_args() {
   use_v4l2_codec =
       is_chromeos_lacros && (target_cpu == "arm" || target_cpu == "arm64")
 
+  # Indicates if Video4Linux2 stateless decoder backend is used.
+  use_v4l2_stateless_decoder = true
+
   # Indicates if VA-API-based hardware acceleration is to be used. This
   # is typically the case on x86-based ChromeOS devices.
   # VA-API should also be compiled by default on x11-using linux devices
