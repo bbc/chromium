@@ -20,6 +20,9 @@ declare_args() {
   # Indicates if non-standard Video4Linux2 components should be used.
   # Turn off if using vanilla kernel.
   use_v4l2_non_standard = true
+  
+  # Indicates if Video4Linux2 stateless decoder backend is used.
+  use_v4l2_stateless_decoder = true
 
   # Indicates if VA-API-based hardware acceleration is to be used. This
   # is typically the case on x86-based ChromeOS devices.
