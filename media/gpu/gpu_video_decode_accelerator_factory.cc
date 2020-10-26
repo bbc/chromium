@@ -26,7 +26,9 @@
 #endif
 #if BUILDFLAG(USE_V4L2_CODEC)
 #include "media/gpu/v4l2/v4l2_device.h"
+#if BUILDFLAG(USE_V4L2_STATELESS_DECODER)
 #include "media/gpu/v4l2/v4l2_slice_video_decode_accelerator.h"
+#endif
 #include "media/gpu/v4l2/v4l2_video_decode_accelerator.h"
 #include "ui/gl/gl_surface_egl.h"
 #endif
@@ -63,9 +65,11 @@ gpu::VideoDecodeAcceleratorCapabilities GetDecoderCapabilitiesInternal(
   vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
   GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
       vda_profiles, &capabilities.supported_profiles);
+#if BUILDFLAG(USE_V4L2_STATELESS_DECODER)
   vda_profiles = V4L2SliceVideoDecodeAccelerator::GetSupportedProfiles();
   GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
       vda_profiles, &capabilities.supported_profiles);
+#endif
 #endif
 #if BUILDFLAG(USE_VAAPI)
   vda_profiles = VaapiVideoDecodeAccelerator::GetSupportedProfiles(workarounds);
@@ -203,11 +207,13 @@ GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA(
     MediaLog* media_log) const {
   std::unique_ptr<VideoDecodeAccelerator> decoder;
   scoped_refptr<V4L2Device> device = V4L2Device::Create();
+#if BUILDFLAG(USE_V4L2_STATELESS_DECODER)
   if (device.get()) {
     decoder.reset(new V4L2SliceVideoDecodeAccelerator(
         device, gl::GLSurfaceEGL::GetHardwareDisplay(), gl_client_.bind_image,
         gl_client_.make_context_current));
   }
+#endif
   return decoder;
 }
 #endif
