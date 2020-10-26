@@ -31,6 +31,9 @@ declare_args() {
   # Compile the VP9 decoder.
   v4l2_decoder_fmt_vp9 = false
 
+  # Compile the legacy VP9 decoder.
+  v4l2_decoder_fmt_vp9_legacy = false
+
   # Compile the stateful decoder backend.
   v4l2_decoder_backend_stateful = true
 
