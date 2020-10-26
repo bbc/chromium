@@ -284,12 +284,14 @@ H264Decoder::H264Accelerator::Status V4L2H264Accelerator::SubmitFrameMetadata(
     return Status::kFail;
   }
 
+#if defined(USE_V4L2_NON_STANDARD)
   H264PictureListToDPBIndicesList(ref_pic_listp0,
                                   priv_->v4l2_decode_param.ref_pic_list_p0);
   H264PictureListToDPBIndicesList(ref_pic_listb0,
                                   priv_->v4l2_decode_param.ref_pic_list_b0);
   H264PictureListToDPBIndicesList(ref_pic_listb1,
                                   priv_->v4l2_decode_param.ref_pic_list_b1);
+#endif
 
   std::vector<scoped_refptr<V4L2DecodeSurface>> ref_surfaces;
   H264DPBToV4L2DPB(dpb, &ref_surfaces);
