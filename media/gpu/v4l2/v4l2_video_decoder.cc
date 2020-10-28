@@ -344,6 +344,15 @@ bool V4L2VideoDecoder::SetupOutputFormat(const gfx::Size& size,
     return false;
   }
 
+  // Setting the output format might reset the visible rectangle.  
+  // Manually set the visible rectangle to make sure it's correct.
+  if (size.width() != visible_rect.width() || 
+      size.height() != visible_rect.height()) {
+    base::Optional<struct v4l2_selection> selection =
+        output_queue_->SetVisibleRect(visible_rect);
+    DCHECK(selection);
+  }
+
   // Got the adjusted size from the V4L2 driver. Now setup the frame pool.
   // TODO(akahuang): It is possible there is an allocatable formats among
   // candidates, but PickDecoderOutputFormat() selects other non-allocatable
