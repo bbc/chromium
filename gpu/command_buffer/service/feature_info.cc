@@ -196,12 +196,13 @@ FeatureInfo::FeatureInfo(
           .status_values[GPU_FEATURE_TYPE_ANDROID_SURFACE_CONTROL] ==
       gpu::kGpuFeatureStatusEnabled;
 
-#if BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMECAST)
+#if defined(OS_MACOSX) || (defined(OS_CHROMEOS) && defined(OS_LINUX))
+  // TODO(ewanr): Can we make this OS_RPIOS instead of OS_LINUX?
+  feature_flags_.chromium_image_ycbcr_420v = true;
+#elif defined(OS_CHROMEOS)
   feature_flags_.chromium_image_ycbcr_420v = base::Contains(
       gpu_feature_info.supported_buffer_formats_for_allocation_and_texturing,
       gfx::BufferFormat::YUV_420_BIPLANAR);
-#elif defined(OS_MAC)
-  feature_flags_.chromium_image_ycbcr_420v = true;
 #endif
 
 #if BUILDFLAG(IS_CHROMEOS_ASH)
