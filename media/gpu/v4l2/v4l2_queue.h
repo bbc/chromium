@@ -431,6 +431,9 @@ class MEDIA_GPU_EXPORT V4L2Queue
   // is one or not.
   [[nodiscard]] std::pair<absl::optional<struct v4l2_format>, int> GetFormat();
 
+  // Set the visible rectangle of the queue using the VIDIOC_S_SELECTION method
+  [[nodiscard]] absl::optional<struct v4l2_selection> SetVisibleRect(const gfx::Rect& visible_rect);
+
   // Codec-specific method to get the visible rectangle of the queue, using the
   // VIDIOC_G_SELECTION ioctl if available, or VIDIOC_G_CROP as a fallback.
   [[nodiscard]] absl::optional<gfx::Rect> GetVisibleRect();

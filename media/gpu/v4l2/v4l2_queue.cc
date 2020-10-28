@@ -1142,6 +1142,24 @@ std::pair<absl::optional<struct v4l2_format>, int> V4L2Queue::GetFormat() {
   return std::make_pair(format, 0);
 }
 
+absl::optional<struct v4l2_selection> V4L2Queue::SetVisibleRect(const gfx::Rect& visible_rect) {
+  DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
+  VLOGF(1) << "visible_rect=" << visible_rect.ToString();
+  struct v4l2_selection selection = {};
+  selection.type = type_;
+  selection.target = V4L2_SEL_TGT_COMPOSE;
+  selection.r.left = visible_rect.x();
+  selection.r.top = visible_rect.y();
+  selection.r.width = visible_rect.width();
+  selection.r.height = visible_rect.height();
+  if (ioctl_cb_.Run(VIDIOC_S_SELECTION, &selection) != 0) {
+    VPQLOGF(2) << "Failed to set visible rectangle";
+    return absl::nullopt;
+  }
+
+  return selection;
+}
+
 absl::optional<gfx::Rect> V4L2Queue::GetVisibleRect() {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 
