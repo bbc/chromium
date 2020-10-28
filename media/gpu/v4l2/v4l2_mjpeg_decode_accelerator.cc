@@ -201,7 +201,7 @@ class JobRecordDmaBuf : public V4L2MjpegDecodeAccelerator::JobRecord {
         mapped_addr_(nullptr),
         out_frame_(std::move(dst_frame)) {}
 
-  ~JobRecordDmaBuf() {
+  ~JobRecordDmaBuf() override {
     if (mapped_addr_) {
       const int ret = munmap(mapped_addr_, size());
       DPCHECK(ret == 0);
