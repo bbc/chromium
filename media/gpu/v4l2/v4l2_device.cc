@@ -991,6 +991,23 @@ std::pair<base::Optional<struct v4l2_format>, int> V4L2Queue::GetFormat() {
   return std::make_pair(format, 0);
 }
 
+base::Optional<struct v4l2_selection> V4L2Queue::SetVisibleRect(const gfx::Rect& visible_rect) {
+  VLOGF(1) << "visible_rect=" << visible_rect.ToString();
+  struct v4l2_selection selection = {};
+  selection.type = type_;
+  selection.target = V4L2_SEL_TGT_COMPOSE;
+  selection.r.left = visible_rect.x();
+  selection.r.top = visible_rect.y();
+  selection.r.width = visible_rect.width();
+  selection.r.height = visible_rect.height();
+  if (device_->Ioctl(VIDIOC_S_SELECTION, &selection) != 0) {
+    VPQLOGF(2) << "Failed to set visible rectangle";
+    return base::nullopt;
+  }
+
+  return selection;
+}
+
 base::Optional<gfx::Rect> V4L2Queue::GetVisibleRect() {
   // Some drivers prior to 4.13 only accept the non-MPLANE variant when using
   // VIDIOC_G_SELECTION. This block can be removed once we stop supporting
