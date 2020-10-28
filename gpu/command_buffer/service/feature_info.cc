@@ -194,13 +194,14 @@ FeatureInfo::FeatureInfo(
           .status_values[GPU_FEATURE_TYPE_ANDROID_SURFACE_CONTROL] ==
       gpu::kGpuFeatureStatusEnabled;
 
-#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_CAST_ANDROID) || \
-    BUILDFLAG(IS_FUCHSIA)
+#if BUILDFLAG(IS_APPLE) || (BUILDFLAG(IS_CHROMEOS) && BUILDFLAG(IS_LINUX))
+  // TODO(ewanr): Can we make this IS_RPIOS instead of IS_LINUX?
+  feature_flags_.chromium_image_ycbcr_420v = true;
+#elif BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_CAST_ANDROID) || \
+      BUILDFLAG(IS_FUCHSIA)
   feature_flags_.chromium_image_ycbcr_420v = base::Contains(
       gpu_feature_info.supported_buffer_formats_for_allocation_and_texturing,
       gfx::BufferFormat::YUV_420_BIPLANAR);
-#elif BUILDFLAG(IS_APPLE)
-  feature_flags_.chromium_image_ycbcr_420v = true;
 #endif
 
 #if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_FUCHSIA)
