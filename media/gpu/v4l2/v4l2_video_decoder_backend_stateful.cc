@@ -507,7 +507,10 @@ void V4L2StatefulVideoDecoderBackend::ChangeResolution() {
 
   // ...that is, unless we are not streaming yet, in which case the resolution
   // change can take place immediately.
-  if (!output_queue_->IsStreaming())
+  // Output queue will be streaming during initialisation on the RPi, so start
+  // the resolution change anyway (bbc/chromium #11)
+  // TODO(ewanr): Uncomment once #11 is fixed
+  // if (!output_queue_->IsStreaming())
     std::move(resolution_change_cb_).Run();
 }
 
