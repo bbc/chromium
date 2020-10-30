@@ -32,6 +32,7 @@ constexpr size_t kInputBufferMaxSizeFor1080p = 1024 * 1024;
 // Input bitstream buffer size for up to 4k streams.
 constexpr size_t kInputBufferMaxSizeFor4k = 4 * kInputBufferMaxSizeFor1080p;
 constexpr size_t kNumInputBuffers = 16;
+constexpr size_t kNumOutputBuffers = 16;
 
 // Input format V4L2 fourccs this class supports.
 constexpr uint32_t kSupportedInputFourccs[] = {
@@ -244,9 +245,17 @@ void V4L2VideoDecoder::Initialize(const VideoDecoderConfig& config,
     return;
   }
 
+  if (output_queue_->AllocateBuffers(kNumOutputBuffers, V4L2_MEMORY_DMABUF) == 0) {
+    VLOGF(1) << "Failed to allocate output buffer.";
+    std::move(init_cb).Run(StatusCode::kV4l2FailedResourceAllocation);
+    return;
+  }
+
   // Start streaming input queue and polling. This is required for the stateful
   // decoder, and doesn't hurt for the stateless one.
-  if (!StartStreamV4L2Queue(false)) {
+  // Start streaming output queue for RPi (bbc/chromium #11)
+  // TODO(ewanr): Remove allocate/stream for output queue once #11 is fixed
+  if (!StartStreamV4L2Queue(true)) {
     VLOGF(1) << "Failed to start streaming.";
     std::move(init_cb).Run(StatusCode::kV4L2FailedToStartStreamQueue);
     return;
@@ -340,6 +349,15 @@ bool V4L2VideoDecoder::SetupOutputFormat(const gfx::Size& size,
              << ") should contains the original coded size("
              << picked_size.ToString() << ").";
     return false;
+  }
+
+  // Setting the output format might reset the visible rectangle.  
+  // Manually set the visible rectangle to make sure it's correct.
+  if (size.width() != visible_rect.width() || 
+      size.height() != visible_rect.height()) {
+    base::Optional<struct v4l2_selection> selection =
+        output_queue_->SetVisibleRect(visible_rect);
+    DCHECK(selection);
   }
 
   // Got the adjusted size from the V4L2 driver. Now setup the frame pool.
