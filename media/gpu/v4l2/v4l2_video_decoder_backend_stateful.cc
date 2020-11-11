@@ -425,6 +425,9 @@ void V4L2StatefulVideoDecoderBackend::OnOutputBufferDequeued(
   EnqueueOutputBuffers();
 }
 
+// Crude way to tell whether we have initialised yet
+bool have_initialised = false;
+
 bool V4L2StatefulVideoDecoderBackend::InitiateFlush(
     VideoDecoder::DecodeCB flush_cb) {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
@@ -446,8 +449,13 @@ bool V4L2StatefulVideoDecoderBackend::InitiateFlush(
   // Special case: if our CAPTURE queue is not streaming, we cannot receive
   // the CAPTURE buffer with the LAST flag set that signals the end of flush.
   // In this case, we should complete the flush immediately.
-  if (!output_queue_->IsStreaming())
+  // Output queue will be streaming during initialisation on the RPi, so start
+  // the flush immediately (bbc/chromium #11)
+  // TODO(ewanr): Revert once #11 is fixed
+  if (!output_queue_->IsStreaming() || !have_initialised) {
+    have_initialised = true;
     return CompleteFlush();
+  }
 
   // Send the STOP command to the V4L2 device. The device will let us know
   // that the flush is completed by sending us a CAPTURE buffer with the LAST
