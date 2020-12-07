@@ -19,7 +19,7 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                sh 'sudo ./build/install-build-deps.sh --no-chromeos-fonts --arm'
+                sh './build/install-build-deps.sh --no-chromeos-fonts --arm'
             }
         }
 
