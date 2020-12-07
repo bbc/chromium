@@ -19,7 +19,7 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                sh 'dpkg --add-architecture i386'
+                // sh 'dpkg --add-architecture i386'
                 sh 'apt update && apt upgrade -y'
                 sh 'apt install lsb-release'
                 sh './build/install-build-deps.sh --no-chromeos-fonts --arm'
