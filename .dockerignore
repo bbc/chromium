@@ -1,0 +1,5 @@
+# Ignore everything
+**
+
+# Except install-build-deps.sh
+!./build/install-build-deps.sh
