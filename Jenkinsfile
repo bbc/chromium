@@ -6,7 +6,12 @@ pipeline {
 
         stage('Configure') {
             steps {
-                git 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
+                checkout scm: [
+                    $class: 'GitSCM',
+                    branches: [[name: '*/master']],
+                    userRemoteConfigs: [[url: 'https://chromium.googlesource.com/chromium/tools/depot_tools.git']],
+                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'depot_tools']]
+                ]
             }
         }
     }
