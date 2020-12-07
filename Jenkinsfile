@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH='$PATH:/var/jenkins_home/workspace/chromium_px-rpi-jenkins/depot_tools'
+        PATH+EXTRA='/var/jenkins_home/workspace/chromium_px-rpi-jenkins/depot_tools'
     }
 
     stages {
