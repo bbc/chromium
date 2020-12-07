@@ -5,7 +5,9 @@ pipeline {
         // implicit checkout
 
         stage('Configure') {
-            git 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
+            steps {
+                git 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
+            }
         }
     }
 }
