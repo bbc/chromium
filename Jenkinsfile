@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PATH='/var/jenkins_home/workspace/chromium_px-rpi-jenkins/depot_tools:$PATH'
+    }
+
     stages {
         stage('Checkout depot_tools') {
             steps {
@@ -11,13 +15,11 @@ pipeline {
                     extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'depot_tools']]
                 ]
             }
-            environment {
-                PATH='/var/jenkins_home/workspace/chromium_px-rpi-jenkins/depot_tools:$PATH'
-            }
         }
 
         stage('Synchronise') {
             steps {
+                echo "PATH is: $PATH"
                 sh 'gclient sync'
             }
         }
