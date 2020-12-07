@@ -19,7 +19,6 @@ pipeline {
 
         stage('Synchronise') {
             steps {
-                echo "PATH is: $PATH"
                 sh 'gclient sync'
             }
         }
