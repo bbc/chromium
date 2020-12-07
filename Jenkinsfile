@@ -17,6 +17,12 @@ pipeline {
             }
         }
 
+        stage('Install dependencies') {
+            steps {
+                sh 'sudo ./build/install-build-deps.sh --no-chromeos-fonts --arm'
+            }
+        }
+
         stage('Synchronise') {
             steps {
                 sh 'gclient sync'
