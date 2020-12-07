@@ -6,9 +6,7 @@ pipeline {
     }
 
     stages {
-        // implicit checkout
-
-        stage('Configure') {
+        stage('Checkout depot_tools') {
             steps {
                 checkout scm: [
                     $class: 'GitSCM',
@@ -16,7 +14,11 @@ pipeline {
                     userRemoteConfigs: [[url: 'https://chromium.googlesource.com/chromium/tools/depot_tools.git']],
                     extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'depot_tools']]
                 ]
+            }
+        }
 
+        stage('Synchronise') {
+            steps {
                 sh 'gclient sync'
             }
         }
