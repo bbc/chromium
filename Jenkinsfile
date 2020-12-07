@@ -19,6 +19,7 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
+                sh 'apt install lsb-release'
                 sh './build/install-build-deps.sh --no-chromeos-fonts --arm'
             }
         }
