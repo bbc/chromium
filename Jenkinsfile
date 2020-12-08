@@ -1,5 +1,8 @@
 pipeline {
-    agent { dockerfile true }
+    agent { 
+        dockerfile true 
+        args '-u 1000:1000'
+    }
 
     stages {
         stage('Synchronise') {
