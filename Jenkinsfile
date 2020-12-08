@@ -8,8 +8,14 @@ pipeline {
     stages {
         stage('Configure') {
             steps {
-                sh 'gclient config https://github.com/bbc/chromium.git'
-                sh 'echo \'target_os=["chromeos"]\' >> .gclient'
+                script {
+                    if (!fileExists('.gclient')) {
+                        sh 'gclient config https://github.com/bbc/chromium.git'
+                        sh 'echo \'target_os=["chromeos"]\' >> .gclient'
+                    } else {
+                        echo 'Found .gclient file'
+                    }
+                }
             }
         }
         stage('Synchronise') {
