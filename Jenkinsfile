@@ -1,7 +1,7 @@
 pipeline {
     agent { 
         dockerfile {
-            args '-u 1000:1000'
+            args '-u 127:134'
         } 
     }
 

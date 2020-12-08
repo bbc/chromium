@@ -23,7 +23,8 @@ RUN ./install-build-deps.sh --no-chromeos-fonts --arm
 RUN rm ./install-build-deps.sh
 
 # Add Jenkins user
-RUN useradd jenkins --shell /bin/bash --create-home
+RUN groupadd -g 134 jenkins
+RUN useradd jenkins -u 127 -g 134 --shell /bin/bash --create-home
 USER jenkins
 
 # Clone depot_tools
