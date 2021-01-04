@@ -358,7 +358,10 @@ const ProfileCodecMap& GetProfileCodecMap() {
           // TODO(hiroh): Remove if-macro once libva for linux-chrome is upreved
           // to 2.9.0 or newer.
           // https://source.chromium.org/chromium/chromium/src/+/master:build/linux/sysroot_scripts/generated_package_lists/sid.amd64
-          {AV1PROFILE_PROFILE_MAIN, VAProfileAV1Profile0},
+
+          // AV1 Profile 0 does not seem to be available:
+          // | "error: use of undeclared identifier 'VAProfileAV1Profile0'"
+          // {AV1PROFILE_PROFILE_MAIN, VAProfileAV1Profile0},
 #endif  // defined (OS_CHROMEOS)
         // VaapiWrapper does not support AV1 Profile 1.
         // {AV1PROFILE_PROFILE_HIGH, VAProfileAV1Profile1},
