@@ -25,6 +25,8 @@ declare_args() {
   use_synaptics_minigbm = false
   use_tegra_minigbm = false
   use_vc4_minigbm = false
+
+  use_intel_minigbm_scanout_y_tiled = false
 }
 
 if (!use_system_minigbm) {
@@ -39,6 +41,9 @@ if (!use_system_minigbm) {
     }
     if (use_intel_minigbm) {
       defines += [ "DRV_I915" ]
+      if (use_intel_minigbm_scanout_y_tiled) {
+        defines += [ "I915_SCANOUT_Y_TILED" ]
+      }
     }
     if (use_marvell_minigbm) {
       defines += [ "DRV_MARVELL" ]
