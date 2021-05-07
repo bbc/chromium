@@ -156,6 +156,10 @@ std::unique_ptr<EventConverterEvdev> OpenInputDevice(
   if (ioctl(fd.get(), EVIOCSCLOCKID, &clk))
     PLOG(ERROR) << "failed to set CLOCK_MONOTONIC";
 
+  // Chromium should be the only application receiving input events
+  if (ioctl(fd.get(), EVIOCGRAB, 1))
+    PLOG(ERROR) << "failed to grab input device: " << path.value();
+
   EventDeviceInfo devinfo;
   if (!devinfo.Initialize(fd.get(), path)) {
     LOG(ERROR) << "Failed to get device information for " << path.value();
