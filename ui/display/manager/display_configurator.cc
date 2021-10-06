@@ -413,8 +413,12 @@ DisplayConfigurator::DisplayLayoutManagerImpl::GetUserSelectedMode(
     }
   }
 
-  // Fall back to native mode.
-  return selected_mode ? selected_mode : display.native_mode();
+  // Default mode for PX mezzanine trials: 1920x1080p50
+  const gfx::Size* px_default_resolution = new gfx::Size(1920, 1080);
+  const DisplayMode* px_default_mode = new DisplayMode(*px_default_resolution, false, 50);
+
+  // Fall back to default mode.
+  return selected_mode ? selected_mode : px_default_mode;
 }
 
 bool DisplayConfigurator::DisplayLayoutManagerImpl::AllDisplaysOnSameDevice(
