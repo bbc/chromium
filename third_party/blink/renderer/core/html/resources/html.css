@@ -56,7 +56,10 @@ script {
 
 body {
     display: block;
-    margin: 8px
+    margin: 8px;
+
+    /* PX: default black background */
+    background-color: #000000
 }
 
 body:-webkit-full-page-media {
