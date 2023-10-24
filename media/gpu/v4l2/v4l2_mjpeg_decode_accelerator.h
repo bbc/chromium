@@ -151,7 +151,7 @@ class MEDIA_GPU_EXPORT V4L2MjpegDecodeAccelerator
   scoped_refptr<base::SingleThreadTaskRunner> io_task_runner_;
 
   // The client of this class.
-  chromeos_camera::MjpegDecodeAccelerator::Client* client_;
+  raw_ptr<chromeos_camera::MjpegDecodeAccelerator::Client> client_;
 
   // The V4L2Device this class is operating upon. This is accessed on
   // |decoder_task_runner_| and |device_poll_task_runner_|.
@@ -197,11 +197,11 @@ class MEDIA_GPU_EXPORT V4L2MjpegDecodeAccelerator
   // variables on |decoder_task_runner_| in destructor, because a task can
   // be posted to |decoder_task_runner_| within DestroyTask().
   base::WeakPtr<V4L2MjpegDecodeAccelerator> weak_ptr_for_decoder_;
-  base::WeakPtrFactory<V4L2MjpegDecodeAccelerator> weak_factory_for_decoder_;
 
   // Point to |this| for use in posting tasks from the decoder thread back to
   // |io_task_runner_|.
   base::WeakPtr<V4L2MjpegDecodeAccelerator> weak_ptr_;
+  base::WeakPtrFactory<V4L2MjpegDecodeAccelerator> weak_factory_for_decoder_;
   base::WeakPtrFactory<V4L2MjpegDecodeAccelerator> weak_factory_;
 };
 

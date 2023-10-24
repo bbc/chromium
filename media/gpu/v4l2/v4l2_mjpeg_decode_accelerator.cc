@@ -250,7 +250,7 @@ class JobRecordDmaBuf : public V4L2MjpegDecodeAccelerator::JobRecord {
   base::ScopedFD dmabuf_fd_;
   size_t size_;
   uint64_t offset_;
-  void* mapped_addr_;
+  raw_ptr<void> mapped_addr_;
   scoped_refptr<VideoFrame> out_frame_;
 };
 
