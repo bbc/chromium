@@ -5,9 +5,9 @@
 #include "media/gpu/v4l2/stateless/vp9_delegate.h"
 
 // ChromeOS specific header; does not exist upstream
-#if BUILDFLAG(IS_CHROMEOS)
-#include <linux/media/vp9-ctrls-upstream.h>
-#endif
+// #if BUILDFLAG(IS_CHROMEOS)
+// #include <linux/media/vp9-ctrls-upstream.h>
+// #endif
 
 #include "base/logging.h"
 #include "base/numerics/safe_math.h"

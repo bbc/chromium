@@ -9,9 +9,9 @@
 
 // build_config.h must come before BUILDFLAG()
 #include "build/build_config.h"
-#if BUILDFLAG(IS_CHROMEOS)
-#include <linux/media/av1-ctrls.h>
-#endif
+// #if BUILDFLAG(IS_CHROMEOS)
+// #include <linux/media/av1-ctrls.h>
+// #endif
 
 #include "base/containers/contains.h"
 #include "base/metrics/histogram_functions.h"
@@ -180,18 +180,18 @@ VideoCodecProfile V4L2ProfileToVideoCodecProfile(uint32_t v4l2_codec,
       }
       break;
 #endif
-#if BUILDFLAG(IS_CHROMEOS)
-    case V4L2_CID_MPEG_VIDEO_AV1_PROFILE:
-      switch (v4l2_profile) {
-        case V4L2_MPEG_VIDEO_AV1_PROFILE_MAIN:
-          return AV1PROFILE_PROFILE_MAIN;
-        case V4L2_MPEG_VIDEO_AV1_PROFILE_HIGH:
-          return AV1PROFILE_PROFILE_HIGH;
-        case V4L2_MPEG_VIDEO_AV1_PROFILE_PROFESSIONAL:
-          return AV1PROFILE_PROFILE_PRO;
-      }
-      break;
-#endif
+// #if BUILDFLAG(IS_CHROMEOS)
+//     case V4L2_CID_MPEG_VIDEO_AV1_PROFILE:
+//       switch (v4l2_profile) {
+//         case V4L2_MPEG_VIDEO_AV1_PROFILE_MAIN:
+//           return AV1PROFILE_PROFILE_MAIN;
+//         case V4L2_MPEG_VIDEO_AV1_PROFILE_HIGH:
+//           return AV1PROFILE_PROFILE_HIGH;
+//         case V4L2_MPEG_VIDEO_AV1_PROFILE_PROFESSIONAL:
+//           return AV1PROFILE_PROFILE_PRO;
+//       }
+//       break;
+// #endif
   }
   return VIDEO_CODEC_PROFILE_UNKNOWN;
 }
@@ -313,10 +313,10 @@ static const std::map<v4l2_enum_type, v4l2_enum_type>
         {V4L2_PIX_FMT_VP8_FRAME, V4L2_CID_MPEG_VIDEO_VP8_PROFILE},
         {V4L2_PIX_FMT_VP9, V4L2_CID_MPEG_VIDEO_VP9_PROFILE},
         {V4L2_PIX_FMT_VP9_FRAME, V4L2_CID_MPEG_VIDEO_VP9_PROFILE},
-#if BUILDFLAG(IS_CHROMEOS)
-        {V4L2_PIX_FMT_AV1, V4L2_CID_MPEG_VIDEO_AV1_PROFILE},
-        {V4L2_PIX_FMT_AV1_FRAME, V4L2_CID_MPEG_VIDEO_AV1_PROFILE},
-#endif
+// #if BUILDFLAG(IS_CHROMEOS)
+//         {V4L2_PIX_FMT_AV1, V4L2_CID_MPEG_VIDEO_AV1_PROFILE},
+//         {V4L2_PIX_FMT_AV1_FRAME, V4L2_CID_MPEG_VIDEO_AV1_PROFILE},
+// #endif
 };
 
 // Default VideoCodecProfiles associated to a V4L2 Codec Control ID.
@@ -333,9 +333,9 @@ static const std::map<v4l2_enum_type, std::vector<VideoCodecProfile>>
 #endif  // BUILDFLAG(ENABLE_HEVC_PARSER_AND_HW_DECODER)
         {V4L2_CID_MPEG_VIDEO_VP8_PROFILE, {VP8PROFILE_ANY}},
         {V4L2_CID_MPEG_VIDEO_VP9_PROFILE, {VP9PROFILE_PROFILE0}},
-#if BUILDFLAG(IS_CHROMEOS)
-        {V4L2_CID_MPEG_VIDEO_AV1_PROFILE, {AV1PROFILE_PROFILE_MAIN}},
-#endif
+// #if BUILDFLAG(IS_CHROMEOS)
+//         {V4L2_CID_MPEG_VIDEO_AV1_PROFILE, {AV1PROFILE_PROFILE_MAIN}},
+// #endif
 };
 
 // Correspondence from a VideoCodecProfiles to V4L2 codec described
@@ -351,10 +351,10 @@ static const std::map<VideoCodecProfile,
 #endif  // BUILDFLAG(ENABLE_HEVC_PARSER_AND_HW_DECODER)
         {VP8PROFILE_ANY, MAKE_V4L2_CODEC_PAIR(V4L2_PIX_FMT_VP8, FRAME)},
         {VP9PROFILE_PROFILE0, MAKE_V4L2_CODEC_PAIR(V4L2_PIX_FMT_VP9, FRAME)},
-#if BUILDFLAG(IS_CHROMEOS)
-        {AV1PROFILE_PROFILE_MAIN,
-         MAKE_V4L2_CODEC_PAIR(V4L2_PIX_FMT_AV1, FRAME)},
-#endif
+// #if BUILDFLAG(IS_CHROMEOS)
+//         {AV1PROFILE_PROFILE_MAIN,
+//          MAKE_V4L2_CODEC_PAIR(V4L2_PIX_FMT_AV1, FRAME)},
+// #endif
 };
 
 }  // namespace

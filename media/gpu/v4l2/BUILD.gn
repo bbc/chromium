@@ -91,8 +91,8 @@ source_set("v4l2") {
   if (is_chromeos) {
     sources += [
       # AV1 delegate depends on header files only in ChromeOS SDK
-      "v4l2_video_decoder_delegate_av1.cc",
-      "v4l2_video_decoder_delegate_av1.h",
+      # "v4l2_video_decoder_delegate_av1.cc",
+      # "v4l2_video_decoder_delegate_av1.h",
 
       # TODO(crbug.com/901264): Encoders use hack for passing offset
       # within a DMA-buf, which is not supported upstream.
