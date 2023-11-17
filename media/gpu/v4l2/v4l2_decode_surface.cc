@@ -103,7 +103,7 @@ void V4L2ConfigStoreDecodeSurface::PrepareSetCtrls(
   DCHECK_NE(ctrls, nullptr);
   DCHECK_GT(config_store_, 0u);
 
-  ctrls->config_store = config_store_;
+  ctrls->which = config_store_;
 }
 
 uint64_t V4L2ConfigStoreDecodeSurface::GetReferenceID() const {
